@@ -1,0 +1,30 @@
+@model PrimeBuy.Application.ViewModels.ProductInputModel;
+@{
+    ViewData["Title"] = "Create";
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+ @if(!string.IsNullOrEmpty(successMessage)){
+    <div class="alert alert-success">@successMessage</div>
+ }
+
+<form asp-action="ProductCreate" method="post" enctype="multipart/form-data">
+    <div class="mb-3 form-group">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" type="text" required class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" type="text" class="form-control tiny-mce"></textarea>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="Price" class="form-label">Price</label>
+        <input asp-for="Price" type="text" step="0.01" pattern="[0-9]+([.][0-9]{1,2})?" class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+        <label class="form-label" asp-for="Image">Image</label>
+        <input type="file" class="form-control" asp-for="Image" />
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Create</button>
+
+</form>

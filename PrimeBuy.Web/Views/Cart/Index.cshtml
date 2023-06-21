@@ -1,0 +1,98 @@
+@model PrimeBuy.Web.Utils.Cart;
+
+@{
+    ViewData["Title"] = "Cart";
+}
+<div class="main-container">
+    <h3>Products</h3>
+    <div class="container" style="display: flex; flex-direction:column;">
+        @foreach(var product in Model.Products)
+        {
+            <div id="product-@product.Id" style="display: flex; margin-top:20px;">
+                <div class="">
+                    <img style="width:200px; object-fit:contain" src="@Url.Content(@product.ImagePath)">
+                </div>
+                <div class="" style="margin-left:20px; display:flex;flex-direction:column;justify-content:center;">
+                    <h3>@product.Name</h3>
+                    <div class="product-price">
+                    <h3 id="product-price-@product.Id">$@(product.Price * product.Amount)</h3>
+                    </div>
+                    <div class="product-quantity">
+                        <button class="btn btn-outline-danger btn-minus" style="border-radius: 30px; margin-right:10px;" data-product-id="@product.Id" data-amount="@product.Amount">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="quantity-value" id="@product.Id">@product.Amount</span>
+                        <button class="btn btn-outline-primary btn-plus" style="border-radius: 30px; margin-left:10px;" data-product-id="@product.Id" data-amount="@product.Amount">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        @if(@Model.Products.Any())
+        {
+            <div class="payment-button" style="margin-top: 30px">
+                 <a asp-action="CreateSession" asp-controller="Payment" class="btn btn-outline-success"><i class="fas fa-money-bill"></i> Proceed to payment</a>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script>
+       $(document).ready(function() {
+        $(document).on('click', '.btn-minus', function(){
+            updateProductAmount(-1, $(this));
+        });
+
+        $(document).on('click', '.btn-plus', function(){
+            updateProductAmount(1, $(this));
+        });
+    });
+
+    function updateProductAmount(amount, element) {
+        var productId = element.data('product-id');
+        var cookieValue = getCookie('Cart');
+        var cookieObj = JSON.parse(cookieValue);
+        var product = cookieObj.Products.find(function(product){
+            return product.Id === productId;
+        });
+        if(amount == -1 && product.Amount == 1)
+        {
+            var index = cookieObj.Products.findIndex(function(product){
+                return product.Id === productId;
+            });
+            cookieObj.Products.splice(index, 1);
+            var newCookie = JSON.stringify(cookieObj);
+            newCookie = encodeURIComponent(newCookie);
+            document.cookie = 'Cart' + '=' + newCookie + '; path=/'
+            $('#product-'+productId).remove();
+            if(cookieObj.Products.length == 0){
+                $('.payment-button').remove();
+            }
+            return;
+        }
+        product.Amount = product.Amount + amount;
+        $('#'+productId).text(product.Amount);
+        var newPrice = product.Amount * product.Price;
+        $('#'+'product-price-'+productId).text('$'+newPrice.toFixed(2));
+        var newCookie = JSON.stringify(cookieObj);
+        newCookie = encodeURIComponent(newCookie);
+        document.cookie = 'Cart' + '=' + newCookie + '; path=/'
+    }
+
+    function getCookie(name) {
+        var cookieValue = "";
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith(name + "=")) {
+            cookieValue = cookie.substring(name.length + 1);
+            break;
+            }
+        }
+
+        return decodeURIComponent(cookieValue);
+    }
+</script>

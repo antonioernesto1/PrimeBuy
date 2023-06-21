@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+ <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Users</h5>
+                        <p class="card-text">Manage users in the system.</p>
+                        <a href="@Url.Action("Index", "User")" class="btn btn-primary">Go to Users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Products</h5>
+                        <p class="card-text">Manage products in the system.</p>
+                        <a href="@Url.Action("Index", "Product")" class="btn btn-primary">Go to Products</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Categories</h5>
+                        <p class="card-text">Manage categories in the system.</p>
+                        <a href="@Url.Action("Index", "Category")" class="btn btn-primary">Go to Categories</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,23 @@
+@model PrimeBuy.Application.ViewModels.AccountLoginModel;
+@{
+    ViewData["Title"] = "Login";
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Login" method="post">
+  @if(!string.IsNullOrEmpty(errorMessage))
+  {
+    <div class="alert alert-danger">@errorMessage</div>
+  }
+  <div class="col-md-3 mb-3 form-group">
+    <label asp-for="UserName" class="form-label">Username</label>
+    <input asp-for="UserName" required type="text" class="form-control">
+  </div>
+  <div class="col-md-3 mb-3 form-group">
+    <label asp-for="Password" for="exampleInputPassword1" class="form-label">Password</label>
+    <input asp-for="Password" required type="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <button type="submit" class="btn btn-secondary">Submit</button>
+</form>

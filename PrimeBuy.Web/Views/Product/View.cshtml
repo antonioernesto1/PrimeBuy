@@ -1,0 +1,91 @@
+@model PrimeBuy.Application.ViewModels.ProductViewModel;
+@{
+    ViewData["Title"] = "View";
+}
+
+<div class="main-container">
+    <div class="product-information" style="display: flex">
+        <div class="information-left" style="margin:10px;">
+            <img style="width: 500px; height:300px; object-fit:contain;"src="@Url.Content(@Model.ImagePath)" alt="">
+        </div>
+        <div class="information-right"style="margin:10px">
+            <div class="container">
+                <h3>@Model.Name</h3>
+            </div>
+            <div class="container" style="font-size:48px; margin-top: 30px">
+                $@Model.Price
+            </div>
+            <div class="container" style="margin-top: 30px">
+                <a class="btn btn-outline-success"><i class="fas fa-money-bill"></i> Buy now</a>            
+                <a asp-action="AddProduct" asp-controller="Cart" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="fas fa-shopping-cart"></i> Add to cart</a>
+            </div>
+        </div>
+    </div>
+    <div class="container product-information-description">
+        <h3>Product Description</h3>
+        <div class="decription-content">
+            @Html.Raw(@Model.Description)
+        </div>
+    </div>
+    <div class="container similar-products">
+        <h3>Similar products</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img style="width:100%; height: 350px; object-fit:contain;" src="https://via.placeholder.com/400x500" class="card-image">
+                    <div class="card-body">
+                        <div class="product-name">
+                            <p><a asp-action="View" asp-controller="Product" asp-route-id="1">Lorem ipsum dolor sit amet</a></p>
+                        </div>
+                        <div class="product-card-buy">
+                            <p>$999</p>
+                            <button class="btn btn-outline-secondary"><a asp-action="Add" asp-controller="Cart" asp-route-id="1">Buy now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="col-md-3">
+                <div class="product-card">
+                    <img style="width:100%; height: 350px; object-fit:contain;" src="https://via.placeholder.com/400x500" class="card-image">
+                    <div class="card-body">
+                        <div class="product-name">
+                            <p><a asp-action="View" asp-controller="Product" asp-route-id="1">Lorem ipsum dolor sit amet</a></p>
+                        </div>
+                        <div class="product-card-buy">
+                            <p>$999</p>
+                            <button class="btn btn-outline-secondary"><a asp-action="Add" asp-controller="Cart" asp-route-id="1">Buy now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img style="width:100%; height: 350px; object-fit:contain;" src="https://via.placeholder.com/400x500" class="card-image">
+                    <div class="card-body">
+                        <div class="product-name">
+                            <p><a asp-action="View" asp-controller="Product" asp-route-id="1">Lorem ipsum dolor sit amet</a></p>
+                        </div>
+                        <div class="product-card-buy">
+                            <p>$999</p>
+                            <button class="btn btn-outline-secondary"><a asp-action="Add" asp-controller="Cart" asp-route-id="1">Buy now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="col-md-3">
+                <div class="product-card">
+                    <img style="width:100%; height: 350px; object-fit:contain;" src="https://via.placeholder.com/400x500" class="card-image">
+                    <div class="card-body">
+                        <div class="product-name">
+                            <p><a asp-action="View" asp-controller="Product" asp-route-id="1">Lorem ipsum dolor sit amet</a></p>
+                        </div>
+                        <div class="product-card-buy">
+                            <p>$999</p>
+                            <button class="btn btn-outline-secondary"><a asp-action="Add" asp-controller="Cart" asp-route-id="1">Buy now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

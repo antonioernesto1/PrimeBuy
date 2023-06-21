@@ -1,0 +1,33 @@
+@model PrimeBuy.Application.ViewModels.AccountRegisterModel;
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Register" method="post" enctype="multipart/form-data">
+    <input asp-for="Id" hidden type="text">
+    <div class="col-md-3 mb-3 form-group">
+        <label asp-for="UserName" class="form-label">Username</label>
+        <input asp-for="UserName" type="text" class="form-control">
+    </div>
+    <div class="col-md-3 mb-3 form-group">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input asp-for="Password" type="password" class="form-control">
+    </div>
+    <div class="col-md-3 mb-3form-group">
+        <label asp-for="Email" class="form-label">E-mail</label>
+        <input asp-for="Email" type="text" class="form-control">
+    </div>
+    <div class="col-md-3 mb-3 form-group">
+        <label class="form-label" asp-for="CPF">CPF</label>
+        <input type="text" class="form-control" asp-for="CPF" />
+    </div>
+    <div class="col-md-3 mb-3 form-group">
+        <label asp-for="Birthdate" class="form-label">Birthdate</label>
+        <input asp-for="Birthdate" type="date" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Create</button>
+
+</form>

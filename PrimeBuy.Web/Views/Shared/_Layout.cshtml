@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PrimeBuy</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PrimeBuy.styles.css" asp-append-version="true" />
+    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@6.5.1/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    
+    <script>
+        tinymce.init({
+            selector: 'textarea', // Define o seletor dos elementos que serão convertidos em editores TinyMCE
+            plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount', // Lista dos plugins que você deseja habilitar
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help', // Barra de ferramentas que você deseja exibir
+            menubar: false, // Desativa a barra de menu
+        });
+        jsCookie.init();
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PrimeBuy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="nav-search d-flex">
+                <form asp-action="Search" asp-controller="Product" method="GET">
+                    <input type="text" required name="query" placeholder="Search here">
+                    <button type="submit" style="border: none; background-color: inherit;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="collapse navbar-collapse" style="margin-right: 30px" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item right me-3 mr-3">
+                        <a class="nav-link" asp-action="Index" asp-controller="Cart">
+                            <i style="transform: scale(1.5)" class="fas fa-shopping-cart"></i>
+                            <span class="start-100 translate-middle badge badge-lg rounded-pill bg-danger">
+                                1
+                            </span>
+                        </a>
+                    </li>                    
+                    <li class="nav-item right me-3 mr-3">
+                        <a class="nav-link" asp-action="Index" asp-controller="Order">My Orders</a>
+                    </li>
+                       @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown right me-3 mr-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                @User.Identity.Name
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                @if(User.IsInRole("Admin")) {
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Admin">Admin panel</a>
+                                }
+                                <a class="dropdown-item" asp-action="Details" asp-controller="Account">My Account</a>
+                                <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a>
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown right">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" asp-action="Login" asp-controller="Account">Sign In</a>
+                                <a class="dropdown-item" asp-action="Register" asp-controller="Account">Sign Up</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" style="text-align:center">
+        <div class="container">
+            <p>&copy; 2023 - PrimeBuy</p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
