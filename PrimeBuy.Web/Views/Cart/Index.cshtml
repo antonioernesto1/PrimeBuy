@@ -32,7 +32,7 @@
         @if(@Model.Products.Any())
         {
             <div class="payment-button" style="margin-top: 30px">
-                 <a asp-action="CreateSession" asp-controller="Payment" class="btn btn-outline-success"><i class="fas fa-money-bill"></i> Proceed to payment</a>
+                 <a asp-action="CreateOrder" asp-controller="Order" class="btn btn-outline-success"><i class="fas fa-money-bill"></i> Proceed to payment</a>
             </div>
         }
     </div>

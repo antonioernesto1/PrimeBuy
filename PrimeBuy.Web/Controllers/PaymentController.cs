@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using PrimeBuy.Application.Services.Interfaces;
 using PrimeBuy.Web.Utils;
 using Stripe;
 using Stripe.Checkout;
@@ -16,16 +18,21 @@ namespace PrimeBuy.Web.Controllers
     public class PaymentController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly IOrderService _orderService;
 
-        public PaymentController(IConfiguration configuration)
+        public PaymentController(IConfiguration configuration, IOrderService orderService)
         {
             _configuration = configuration;
+            _orderService = orderService;
         }
+
         [HttpGet("Success")]
         public async Task<IActionResult> Success(string session_id)
         {
-            return View();
+            var order = await _orderService.UpdateOrderStatus(session_id);
+            return RedirectToAction("Index", "Order");
         }
+        [Authorize]
         [HttpGet("CreateSession")]
         public async Task<IActionResult> CreateSession(string order_id = null)
         {
@@ -61,6 +68,8 @@ namespace PrimeBuy.Web.Controllers
             };
             var service = new SessionService();
             var session = await service.CreateAsync(options);
+            var orderId = int.Parse(order_id);
+            var response = await _orderService.UpdateOrderSessionId(orderId, session.Id);
             return Redirect(session.Url);
         }
     }

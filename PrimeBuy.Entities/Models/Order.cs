@@ -18,6 +18,8 @@ namespace PrimeBuy.Entities.Models
         [Column("status_id")]
         public int StatusId { get; set; }
         public List<Product> Products { get; set; }
+        [Column("session_id")]
+        public string? SessionId {get; set;}
         public Customer Customer { get; set; }
         [Column("order_date")]
         public DateTime OrderDate { get; set; }

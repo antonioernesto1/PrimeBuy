@@ -10,7 +10,8 @@ namespace PrimeBuy.Data
         {
         }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Order> Sales { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrdersProducts> OrdersProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
