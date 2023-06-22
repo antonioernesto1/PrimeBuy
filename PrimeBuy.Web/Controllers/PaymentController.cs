@@ -29,6 +29,11 @@ namespace PrimeBuy.Web.Controllers
         [HttpGet("Success")]
         public async Task<IActionResult> Success(string session_id)
         {
+            if(Request.Cookies.TryGetValue("AuthenticationCookies", out string cookie))
+                Console.Write(cookie);
+            else
+                Console.Write("No cookies");
+
             var order = await _orderService.UpdateOrderStatus(session_id);
             return RedirectToAction("Index", "Order");
         }
