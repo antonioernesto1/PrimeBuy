@@ -73,8 +73,7 @@ namespace PrimeBuy.Web.Controllers
             };
             var service = new SessionService();
             var session = await service.CreateAsync(options);
-            var orderId = int.Parse(order_id);
-            var response = await _orderService.UpdateOrderSessionId(orderId, session.Id);
+            var response = await _orderService.UpdateOrderSessionId(order_id, session.Id);
             return Redirect(session.Url);
         }
     }

@@ -6,8 +6,8 @@ using PrimeBuy.Entities.Models;
 
 namespace PrimeBuy.Data.Repositories.Interfaces
 {
-    public interface IOrdersProductsRepository
+    public interface IStatusRepository
     {
-        Task<OrdersProducts> GetOrderProduct(int productId, string orderId);
+        Task<Status> GetStatusById(int id);
     }
 }

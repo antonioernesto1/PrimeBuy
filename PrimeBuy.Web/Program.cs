@@ -44,6 +44,7 @@ builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddSingleton<IImageHandler>(provider =>
 {
     var webHostEnvironment = provider.GetRequiredService<IWebHostEnvironment>();

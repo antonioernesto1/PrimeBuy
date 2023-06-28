@@ -11,7 +11,7 @@ namespace PrimeBuy.Entities.Models
     {
         [Key]
         [Column("order_id")]
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         [Key]
         [Column("product_id")]
         public int ProductId { get; set; }

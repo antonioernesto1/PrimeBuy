@@ -9,8 +9,9 @@ namespace PrimeBuy.Application.Services.Interfaces
 {
     public interface IOrderService
     {
+        Task<List<Order>> GetOrdersByUsername(string username);
         Task<Order> CreateOrder(List<ProductCartViewModel> products, string username);
         Task<Order> UpdateOrderStatus(string sessionId);
-        Task<bool> UpdateOrderSessionId(int orderId, string sessionId);
+        Task<bool> UpdateOrderSessionId(string orderId, string sessionId);
     }
 }

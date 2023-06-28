@@ -8,17 +8,18 @@ using PrimeBuy.Entities.Models;
 
 namespace PrimeBuy.Data.Repositories
 {
-    public class OrdersProductsRepository : IOrdersProductsRepository
+    public class StatusRepository : IStatusRepository
     {
         private readonly AppDbContext _context;
-        public OrdersProductsRepository(AppDbContext context)
+
+        public StatusRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<OrdersProducts> GetOrderProduct(int productId, string orderId)
+        public async Task<Status> GetStatusById(int id)
         {
-            return await _context.OrdersProducts.FirstOrDefaultAsync(x => x.ProductId == productId && x.OrderId == orderId);
+            return await _context.Status.AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

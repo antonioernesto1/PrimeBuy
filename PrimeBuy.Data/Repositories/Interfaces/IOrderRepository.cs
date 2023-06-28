@@ -8,7 +8,8 @@ namespace PrimeBuy.Data.Repositories
 {
     public interface IOrderRepository
     {
-        Task<Order> GetOrderById(int id);
+        Task<Order> GetOrderById(string id);
         Task<Order> GetOrderBySessionId(string sessionId);
+        Task<List<Order>> GetOrderByUsername(string username);
     }
 }

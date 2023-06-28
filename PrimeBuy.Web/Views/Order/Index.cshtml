@@ -1,9 +1,44 @@
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>@ViewData["Title"]</h1>
-
-<div>
-    
+@model List<PrimeBuy.Entities.Models.Order>;
+<style>
+    .information-content{
+        display:flex;
+        flex-direction: column;
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+</style>
+<div class="main-container">
+    <h2>My Orders</h2>
+    @if(Model.Any())
+    {
+        @foreach (var order in Model)
+        {
+            <div class="order" style="margin-top:50px; width:80%">
+                <div class="order-informations" style="display: flex; background-color:rgba(199, 199, 199, 0.282)">
+                    <div class="information-content">
+                        <span>Order n.</span>
+                        <span>@order.Id</span>
+                    </div>
+                    <div class="information-content">
+                        <span>Ordered by</span>
+                        <span>@order.Customer.UserName</span>
+                    </div>
+                    <div class="information-content">
+                        <span>Total price</span>
+                        <span>$@order.TotalPrice.ToString("F2")</span>
+                    </div>
+                    <div class="information-content">
+                        <span>Order status</span>
+                        <span>@order.Status.Name</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+   else
+   {
+        <div class="" style="text-align: center;">
+            <h3>You have no orders</h3>
+        </div>        
+    }   
 </div>

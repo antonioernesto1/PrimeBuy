@@ -15,13 +15,18 @@ namespace PrimeBuy.Data.Repositories
         {
             _context = context;
         }
-        public async Task<Order> GetOrderById(int id)
+        public async Task<Order> GetOrderById(string id)
         {
             return await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<Order> GetOrderBySessionId(string sessionId)
         {
             return await _context.Orders.FirstOrDefaultAsync(x => x.SessionId == sessionId);
+        }
+
+        public async Task<List<Order>> GetOrderByUsername(string username)
+        {
+            return await _context.Orders.AsQueryable().Where(x => x.Customer.UserName == username).Include(x => x.Status).Include(x => x.Customer).Include(x => x.Products).ToListAsync();
         }
     }
 }

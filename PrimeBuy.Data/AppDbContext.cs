@@ -9,6 +9,7 @@ namespace PrimeBuy.Data
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
+        public DbSet<Status> Status { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrdersProducts> OrdersProducts { get; set; }

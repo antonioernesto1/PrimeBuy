@@ -12,6 +12,7 @@ using PrimeBuy.Web.Utils;
 
 namespace PrimeBuy.Web.Controllers
 {
+    [Route("{controller}")]
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
@@ -21,13 +22,16 @@ namespace PrimeBuy.Web.Controllers
         }
         
         [Authorize]
-        [HttpGet]
-        public IActionResult Index()
+        [HttpGet("Index")]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var username = User.Identity.Name;
+            var orders = await _orderService.GetOrdersByUsername(username);
+            return View(orders);
         }
 
         [Authorize]
+        [HttpGet("CreateOrder")]
         public async Task<IActionResult> CreateOrder()
         {
             Request.Cookies.TryGetValue("Cart", out string jsonCart);

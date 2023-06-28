@@ -12,7 +12,7 @@ namespace PrimeBuy.Entities.Models
         [Key]
         [Column("id")]
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Column("customer_id")]
         public string CustomerId { get; set; }
         [Column("status_id")]
@@ -23,6 +23,8 @@ namespace PrimeBuy.Entities.Models
         public Customer Customer { get; set; }
         [Column("order_date")]
         public DateTime OrderDate { get; set; }
+        [Column("total_price")]
+        public decimal TotalPrice { get; set; }
         public Status Status { get; set; }
     }
 }
