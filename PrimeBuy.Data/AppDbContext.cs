@@ -9,6 +9,7 @@ namespace PrimeBuy.Data
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -24,6 +25,7 @@ namespace PrimeBuy.Data
                 .UsingEntity<OrdersProducts>();
             builder.Entity<Customer>().HasMany(x => x.Orders).WithOne(x => x.Customer);
             builder.Entity<Order>().HasOne(x => x.Status).WithMany(x => x.Orders);
+            builder.Entity<Product>().HasOne(x => x.Category).WithMany(x => x.Products);
         }
     }
 }

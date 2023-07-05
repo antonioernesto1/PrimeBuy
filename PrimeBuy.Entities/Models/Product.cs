@@ -24,5 +24,11 @@ namespace PrimeBuy.Entities.Models
         [Required]
         public bool isFeatured { get; set; }
         public List<Order> Orders { get; set; }
+
+        [ForeignKey("category_id")]
+        [Column("category_id")]
+        [Required]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }
