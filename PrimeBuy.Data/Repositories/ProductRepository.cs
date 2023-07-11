@@ -21,9 +21,12 @@ namespace PrimeBuy.Data.Repositories
         {
             return await _context.Products.AsQueryable().ToListAsync();
         }
-        public async Task<Product> GetProductById(int id)
+        public async Task<Product> GetProductById(int id, bool includeCategory = false)
         {
-            return await _context.Products.AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
+            var product = _context.Products.AsQueryable();
+            if(includeCategory == true)
+                product = product.Include(x => x.Category);
+            return await product.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<List<Product>> GetFeaturedProducts()
         {
@@ -33,6 +36,11 @@ namespace PrimeBuy.Data.Repositories
         public async Task<List<Product>> GetProductByName(string name)
         {
             return await _context.Products.Where(x => x.Name.ToLower().Contains(name.ToLower())).ToListAsync();
+        }
+
+        public async Task<List<Product>> GetSimilarProducts(int categoryId, int productId)
+        {
+            return await _context.Products.Where(x => x.CategoryId == categoryId && x.Id != productId).OrderBy(x => x.isFeatured).Take(4).ToListAsync();
         }
     }
 }

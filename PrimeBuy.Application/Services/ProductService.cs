@@ -18,47 +18,100 @@ namespace PrimeBuy.Application.Services
         private readonly IRepository _repository;
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IImageHandler _imageHandler;
 
-        public ProductService(IRepository repository, IMapper mapper, IImageHandler imageHandler, IProductRepository productRepository)
+        public ProductService(IRepository repository, IMapper mapper,
+            IImageHandler imageHandler, IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _repository = repository;
             _mapper = mapper;
             _imageHandler = imageHandler;
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<bool> AddProduct(ProductInputModel model)
         {
-            var product = _mapper.Map<Product>(model);
-            string path = _imageHandler.UploadImage(model.Image);
-            product.ImagePath = path;
-            _repository.Add(product);
-            if(await _repository.SaveChangesAsync())
-                return true;
-            return false;
+            try
+            {
+                var product = _mapper.Map<Product>(model);
+                product.CategoryId = 0;
+                var category = await _categoryRepository.GetCategoryById(model.CategoryId);
+                product.Category = category;
+                string path = _imageHandler.UploadImage(model.Image);
+                product.ImagePath = path;
+                _repository.Add(product);
+                if(await _repository.SaveChangesAsync())
+                    return true;
+                return false;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+            
         }
 
-        public async Task<ProductViewModel> GetProductById(int id)
+        public async Task<ProductViewModel> GetProductById(int id, bool includeCategory = false)
         {
-            var product = await _productRepository.GetProductById(id);
-            var productViewModel = _mapper.Map<ProductViewModel>(product);
-            return productViewModel;
+            try
+            {
+                var product = await _productRepository.GetProductById(id, includeCategory);
+                var productViewModel = _mapper.Map<ProductViewModel>(product);
+                return productViewModel;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
 
         public async Task<List<ProductViewModel>> GetFeaturedProducts()
         {
-            var products = await _productRepository.GetFeaturedProducts();
-            var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
-            return productsViewModels;
+            try
+            {
+                var products = await _productRepository.GetFeaturedProducts();
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                return productsViewModels;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
 
         public async Task<List<ProductViewModel>> GetProductByName(string name)
         {
-            var products = await _productRepository.GetProductByName(name);
-            var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
-            return productsViewModels;
+            try
+            {
+                var products = await _productRepository.GetProductByName(name);
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                return productsViewModels;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        public async Task<List<ProductViewModel>> GetSimilarProducts(int categoryId, int productId)
+        {
+            try
+            {
+                var products = await _productRepository.GetSimilarProducts(categoryId, productId);
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                return productsViewModels;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
     }
 }

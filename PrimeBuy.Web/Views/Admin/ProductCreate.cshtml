@@ -1,11 +1,14 @@
-@model PrimeBuy.Application.ViewModels.ProductInputModel;
+@model PrimeBuy.Application.ViewModels.ProductInputModel
 @{
     ViewData["Title"] = "Create";
     var successMessage = TempData["SuccessMessage"] as string;
+    var categories = ViewBag.Categories as SelectList;
 }
- @if(!string.IsNullOrEmpty(successMessage)){
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
     <div class="alert alert-success">@successMessage</div>
- }
+}
 
 <form asp-action="ProductCreate" method="post" enctype="multipart/form-data">
     <div class="mb-3 form-group">
@@ -21,10 +24,19 @@
         <input asp-for="Price" type="text" step="0.01" pattern="[0-9]+([.][0-9]{1,2})?" class="form-control">
     </div>
     <div class="mb-3 form-group">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        <select asp-for="CategoryId" class="form-control">
+            <option value="">-- Select category --</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Value">@category.Text</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3 form-group">
         <label class="form-label" asp-for="Image">Image</label>
         <input type="file" class="form-control" asp-for="Image" />
     </div>
 
     <button type="submit" class="btn btn-secondary">Create</button>
-
 </form>

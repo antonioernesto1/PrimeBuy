@@ -44,12 +44,12 @@ namespace PrimeBuy.Web.Controllers
 
                 productAtCart.Amount++;
                 SetCartCookie(cart);
-                var product = await _productService.GetProductById(productAtCart.Id);
+                var product = await _productService.GetProductById(productAtCart.Id, false);
                 return View(product);
             }
             else
             {
-                var product = await _productService.GetProductById(id);
+                var product = await _productService.GetProductById(id, false);
                 cart.Products.Add(new ProductCartViewModel{
                     Id = product.Id, Amount = 1,
                     ImagePath = product.ImagePath, Price = product.Price,

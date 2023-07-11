@@ -34,49 +34,73 @@ namespace PrimeBuy.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(AccountLoginModel model)
         {
-            if(User.Identity.IsAuthenticated)
+            try
+            {
+                if(User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
-            var user = await _accountService.Login(model);
-            if(user == null){
-                TempData["ErrorMessage"] = "Invalid username and/or password";
-                return View();
-            }
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
-            };
-            var roles = await _accountService.GetUserRoles(model.UserName);
-            foreach(var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-            var identity = new ClaimsIdentity(claims, "Cookies");
-            var principal = new ClaimsPrincipal(identity);
+                var user = await _accountService.Login(model);
+                if(user == null){
+                    TempData["ErrorMessage"] = "Invalid username and/or password";
+                    return View();
+                }
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
+                };
+                var roles = await _accountService.GetUserRoles(model.UserName);
+                foreach(var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                var identity = new ClaimsIdentity(claims, "Cookies");
+                var principal = new ClaimsPrincipal(identity);
 
-            HttpContext.SignInAsync("Cookies", principal).Wait();
+                HttpContext.SignInAsync("Cookies", principal).Wait();
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
         public IActionResult Register()
         {
-            if(User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
-            return View();
+            try
+            {
+                 if(User.Identity.IsAuthenticated)
+                    return RedirectToAction("Index", "Home");
+                return View();
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
         [HttpPost]
         public async Task<IActionResult> Register([FromForm] AccountRegisterModel model)
         {
-            if(User.Identity.IsAuthenticated)
-                return RedirectToAction("Index", "Home");
-            var response = await _accountService.Register(model);
-            if(response == false)
+            try
             {
-                TempData["ErrorMessage"] = "Error while creating user";
+                if(User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+                var response = await _accountService.Register(model);
+                if(response == false)
+                {
+                    TempData["ErrorMessage"] = "Error while creating user";
+                }
+                var accountLoginModel = new AccountLoginModel{UserName = model.UserName, Password = model.Password};
+                return RedirectToAction("Login", "Account", accountLoginModel);
             }
-            var accountLoginModel = new AccountLoginModel{UserName = model.UserName, Password = model.Password};
-            return RedirectToAction("Login", "Account", accountLoginModel);
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
 
         [Authorize]

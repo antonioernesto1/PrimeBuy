@@ -25,22 +25,38 @@ namespace PrimeBuy.Web.Controllers
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
-            var username = User.Identity.Name;
-            var orders = await _orderService.GetOrdersByUsername(username);
-            return View(orders);
+            try
+            {
+                 var username = User.Identity.Name;
+                var orders = await _orderService.GetOrdersByUsername(username);
+                return View(orders);
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
 
         [Authorize]
         [HttpGet("CreateOrder")]
         public async Task<IActionResult> CreateOrder()
         {
-            Request.Cookies.TryGetValue("Cart", out string jsonCart);
-            var cart = JsonConvert.DeserializeObject<Cart>(jsonCart);
-            var username = User.Identity.Name;
-            var order = await _orderService.CreateOrder(cart.Products, username);
-            if(order != null)
-                return RedirectToAction("CreateSession", "Payment", new {order_id = order.Id});
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                Request.Cookies.TryGetValue("Cart", out string jsonCart);
+                var cart = JsonConvert.DeserializeObject<Cart>(jsonCart);
+                var username = User.Identity.Name;
+                var order = await _orderService.CreateOrder(cart.Products, username);
+                if(order != null)
+                    return RedirectToAction("CreateSession", "Payment", new {order_id = order.Id});
+                return RedirectToAction("Index", "Home");
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
 
     }

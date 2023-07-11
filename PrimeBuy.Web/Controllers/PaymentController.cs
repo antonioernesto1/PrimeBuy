@@ -29,52 +29,63 @@ namespace PrimeBuy.Web.Controllers
         [HttpGet("Success")]
         public async Task<IActionResult> Success(string session_id)
         {
-            if(Request.Cookies.TryGetValue("AuthenticationCookies", out string cookie))
-                Console.Write(cookie);
-            else
-                Console.Write("No cookies");
-
-            var order = await _orderService.UpdateOrderStatus(session_id);
-            return RedirectToAction("Index", "Order");
+            try
+            {
+                var order = await _orderService.UpdateOrderStatus(session_id);
+                return RedirectToAction("Index", "Order");
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
         [Authorize]
         [HttpGet("CreateSession")]
         public async Task<IActionResult> CreateSession(string order_id = null)
         {
-            StripeConfiguration.ApiKey = _configuration["Stripe:ApiKey"];
-            Request.Cookies.TryGetValue("Cart", out string cartJson);
-            var cart = JsonConvert.DeserializeObject<Cart>(cartJson);
-            var products = cart.Products;
-            List<SessionLineItemOptions> items = new List<SessionLineItemOptions>();
-            foreach(var product in products)
+            try
             {
-                items.Add(new SessionLineItemOptions
+                StripeConfiguration.ApiKey = _configuration["Stripe:ApiKey"];
+                Request.Cookies.TryGetValue("Cart", out string cartJson);
+                var cart = JsonConvert.DeserializeObject<Cart>(cartJson);
+                var products = cart.Products;
+                List<SessionLineItemOptions> items = new List<SessionLineItemOptions>();
+                foreach(var product in products)
                 {
-                    PriceData = new SessionLineItemPriceDataOptions
+                    items.Add(new SessionLineItemOptions
                     {
-                        Currency = "usd",
-                        UnitAmountDecimal = product.Price * 100,
-                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        PriceData = new SessionLineItemPriceDataOptions
                         {
-                            Name = product.Name,
-                            Images = new List<string> {product.ImagePath}
-                        }
-                    },
-                    Quantity = product.Amount
-                });
+                            Currency = "usd",
+                            UnitAmountDecimal = product.Price * 100,
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = product.Name,
+                                Images = new List<string> {product.ImagePath}
+                            }
+                        },
+                        Quantity = product.Amount
+                    });
+                }
+                var options = new SessionCreateOptions
+                {
+                    PaymentMethodTypes = new List<string> {"card"},
+                    LineItems = items,
+                    SuccessUrl = "http://localhost:5106/Payment/Success?session_id={CHECKOUT_SESSION_ID}",
+                    CancelUrl = "http://localhost:5106/Payment/Cancel",
+                    Mode = "payment"
+                };
+                var service = new SessionService();
+                var session = await service.CreateAsync(options);
+                var response = await _orderService.UpdateOrderSessionId(order_id, session.Id);
+                return Redirect(session.Url);
             }
-            var options = new SessionCreateOptions
+            catch (System.Exception)
             {
-                PaymentMethodTypes = new List<string> {"card"},
-                LineItems = items,
-                SuccessUrl = "http://localhost:5106/Payment/Success?session_id={CHECKOUT_SESSION_ID}",
-                CancelUrl = "http://localhost:5106/Payment/Cancel",
-                Mode = "payment"
-            };
-            var service = new SessionService();
-            var session = await service.CreateAsync(options);
-            var response = await _orderService.UpdateOrderSessionId(order_id, session.Id);
-            return Redirect(session.Url);
+                
+                throw;
+            }
         }
     }
 }

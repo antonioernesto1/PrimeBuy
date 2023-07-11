@@ -22,7 +22,9 @@ namespace PrimeBuy.Application.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IOrdersProductsRepository _ordersProductsRepository;
         private readonly IStatusRepository _statusRepository;
-        public OrderService(IRepository repository, IProductRepository productRepository, IAccountRepository accountRepository, IOrdersProductsRepository ordersProductsRepository, IOrderRepository orderRepository, IConfiguration configuration, IStatusRepository statusRepository)
+        public OrderService(IRepository repository, IProductRepository productRepository, 
+            IAccountRepository accountRepository, IOrdersProductsRepository ordersProductsRepository,
+            IOrderRepository orderRepository, IConfiguration configuration, IStatusRepository statusRepository)
         {
             _repository = repository;
             _productRepository = productRepository;
@@ -35,76 +37,107 @@ namespace PrimeBuy.Application.Services
 
         public async Task<bool> UpdateOrderSessionId(string orderId, string sessionId)
         {
-            var order = await _orderRepository.GetOrderById(orderId);
-            order.SessionId = sessionId;
-            if (await _repository.SaveChangesAsync())
-                return true;
-            return false;
+            try
+            {
+                 var order = await _orderRepository.GetOrderById(orderId);
+                order.SessionId = sessionId;
+                if (await _repository.SaveChangesAsync())
+                    return true;
+                return false;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
         public async Task<Order> UpdateOrderStatus(string sessionId)
         {
-            Stripe.StripeConfiguration.ApiKey = _configuration["Stripe:ApiKey"];
-            var order = await _orderRepository.GetOrderBySessionId(sessionId);
-            if(order == null)
-                return null;
-            var service = new SessionService();
-            var session = await service.GetAsync(sessionId);
-            if(session != null)
+            try
             {
-                if(session.PaymentStatus == "paid")
-                    order.StatusId = 2;
-                else if(session.PaymentStatus == "canceled")
-                    order.StatusId = 3;
+                Stripe.StripeConfiguration.ApiKey = _configuration["Stripe:ApiKey"];
+                var order = await _orderRepository.GetOrderBySessionId(sessionId);
+                if(order == null)
+                    return null;
+                var service = new SessionService();
+                var session = await service.GetAsync(sessionId);
+                if(session != null)
+                {
+                    if(session.PaymentStatus == "paid")
+                        order.StatusId = 2;
+                    else if(session.PaymentStatus == "canceled")
+                        order.StatusId = 3;
 
-                if(await _repository.SaveChangesAsync())
-                    return order;
+                    if(await _repository.SaveChangesAsync())
+                        return order;
+                    return null;
+                }
                 return null;
             }
-            return null;
-
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
         public async Task<Order> CreateOrder(List<ProductCartViewModel> productsDto, string username)
         {
-            var user = await _accountRepository.GetUserByLogin(username);
-            if(user == null)
-                return null;
-            List<Product> products = new List<Product>();
-            foreach(var product in productsDto)
+            try
             {
-                products.Add(await _productRepository.GetProductById(product.Id));
-            }
-            string id = GenerateId();
-            var status = await _statusRepository.GetStatusById(1);
-            var totalPrice = GetTotalPrice(productsDto);
-            Order order = new Order
-            {
-                Id = id,
-                Products = products,
-                Customer = user,
-                Status = status,
-                OrderDate = DateTime.UtcNow,
-                TotalPrice = totalPrice
-            };
-            _repository.Add(order);
-            if(await _repository.SaveChangesAsync() == true)
-            {
-                foreach(var productDto in productsDto)
+                var user = await _accountRepository.GetUserByLogin(username);
+                if(user == null)
+                    return null;
+                List<Product> products = new List<Product>();
+                foreach(var product in productsDto)
                 {
-                    var orderProduct = await _ordersProductsRepository.GetOrderProduct(productDto.Id, order.Id);
-                    orderProduct.Amount = productDto.Amount;
+                    products.Add(await _productRepository.GetProductById(product.Id));
                 }
-                if(await _repository.SaveChangesAsync())
-                    return order;
+                string id = GenerateId();
+                var status = await _statusRepository.GetStatusById(1);
+                var totalPrice = GetTotalPrice(productsDto);
+                Order order = new Order
+                {
+                    Id = id,
+                    Products = products,
+                    Customer = user,
+                    Status = status,
+                    OrderDate = DateTime.UtcNow,
+                    TotalPrice = totalPrice
+                };
+                _repository.Add(order);
+                if(await _repository.SaveChangesAsync() == true)
+                {
+                    foreach(var productDto in productsDto)
+                    {
+                        var orderProduct = await _ordersProductsRepository.GetOrderProduct(productDto.Id, order.Id);
+                        orderProduct.Amount = productDto.Amount;
+                    }
+                    if(await _repository.SaveChangesAsync())
+                        return order;
+                }
+                return null;
             }
-            return null;
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
 
         public async Task<List<Order>> GetOrdersByUsername(string username)
         {
-            var orders = await _orderRepository.GetOrderByUsername(username);
-            if(orders != null)
-                return orders;
-            return null;
+            try
+            {
+                var orders = await _orderRepository.GetOrderByUsername(username);
+                if(orders != null)
+                    return orders;
+                return null;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
 
         private string GenerateId()

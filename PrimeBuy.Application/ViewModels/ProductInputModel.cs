@@ -13,5 +13,6 @@ namespace PrimeBuy.Application.ViewModels
         public decimal Price { get; set; }
         public IFormFile Image { get; set; }
         public bool isFeatured { get; set; }
+        public int CategoryId {get; set;}
     }
 }

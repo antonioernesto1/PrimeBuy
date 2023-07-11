@@ -9,8 +9,9 @@ namespace PrimeBuy.Data.Repositories.Interfaces
     public interface IProductRepository
     {
         public Task<List<Product>> GetProducts();
-        Task<Product> GetProductById(int id);
+        Task<Product> GetProductById(int id, bool includeCategory = false);
         Task<List<Product>> GetFeaturedProducts(); 
         Task<List<Product>> GetProductByName(string name);
+        Task<List<Product>> GetSimilarProducts(int categoryId, int productId);
     }
 }

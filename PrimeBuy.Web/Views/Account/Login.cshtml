@@ -13,11 +13,15 @@
   }
   <div class="col-md-3 mb-3 form-group">
     <label asp-for="UserName" class="form-label">Username</label>
-    <input asp-for="UserName" required type="text" class="form-control">
+    <input asp-for="UserName" id="login" required type="text" class="form-control">
   </div>
   <div class="col-md-3 mb-3 form-group">
     <label asp-for="Password" for="exampleInputPassword1" class="form-label">Password</label>
-    <input asp-for="Password" required type="password" class="form-control" id="exampleInputPassword1">
+    <input asp-for="Password" id="password" required type="password" class="form-control">
   </div>
   <button type="submit" class="btn btn-secondary">Submit</button>
 </form>
+<button id="logAsAdmin" class="btn btn-secondary">Log in as Admin</button>
+
+
+<script src="~/js/setAdmin.js"></script>

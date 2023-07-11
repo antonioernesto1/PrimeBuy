@@ -16,7 +16,8 @@ namespace PrimeBuy.Application.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
 
-        public AccountService(IAccountRepository accountRepository, IRepository repository, IMapper mapper)
+        public AccountService(IAccountRepository accountRepository, IRepository repository, 
+            IMapper mapper)
         {
             _accountRepository = accountRepository;
             _repository = repository;
@@ -25,14 +26,22 @@ namespace PrimeBuy.Application.Services
 
         public async Task<bool> Register(AccountRegisterModel model)
         {
-            var user = _mapper.Map<Customer>(model);
-            user.EmailConfirmed = true;
-            user.Birthdate = DateTime.UtcNow;
-            user.Id = new Guid().ToString();
-            var response = await _repository.CreateUser(user, model.Password);
-            if(response == true)
-                return true;
-            return false;
+            try
+            {
+                var user = _mapper.Map<Customer>(model);
+                user.EmailConfirmed = true;
+                user.Birthdate = DateTime.UtcNow;
+                user.Id = new Guid().ToString();
+                var response = await _repository.CreateUser(user, model.Password);
+                if(response == true)
+                    return true;
+                return false;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
         public async Task<Customer> Login(AccountLoginModel model)
         {

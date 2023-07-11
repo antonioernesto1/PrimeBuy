@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrimeBuy.Application.Services.Interfaces;
 using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Web.Models;
 
 namespace PrimeBuy.Web.Controllers
 {
@@ -25,8 +26,12 @@ namespace PrimeBuy.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> View(int id)
         {
-            var product = await _productService.GetProductById(id);
-            return View(product);
+            var viewModel = new ProductPageViewModel();
+            var product = await _productService.GetProductById(id, true);
+            viewModel.ProductViewModel = product;
+            var similarProducts = await _productService.GetSimilarProducts(product.CategoryId, product.Id);
+            viewModel.SimilarProducts = similarProducts;
+            return View(viewModel);
         }
 
         [HttpGet]

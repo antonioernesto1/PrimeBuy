@@ -1,0 +1,16 @@
+@model PrimeBuy.Application.ViewModels.CategoryInputModel;
+@{
+    ViewData["Title"] = "Create";
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+ @if(!string.IsNullOrEmpty(successMessage)){
+    <div class="alert alert-success">@successMessage</div>
+ }
+
+<form asp-action="CategoryCreate" method="post">
+    <div class="col-4 form-group" style="margin-bottom:10px;">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" type="text" required class="form-control">
+    </div>
+    <button type="submit" class="btn btn-secondary">Create</button>
+</form>
