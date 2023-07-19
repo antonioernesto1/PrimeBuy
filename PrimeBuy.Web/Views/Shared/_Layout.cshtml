@@ -44,8 +44,8 @@
                     <li class="nav-item right me-3 mr-3">
                         <a class="nav-link" asp-action="Index" asp-controller="Cart">
                             <i style="transform: scale(1.5)" class="fas fa-shopping-cart"></i>
-                            <span class="start-100 translate-middle badge badge-lg rounded-pill bg-danger">
-                                1
+                            <span style="display:none;" id="badge" class="start-100 translate-middle badge badge-lg rounded-pill bg-danger">
+                            
                             </span>
                         </a>
                     </li>                    
@@ -105,3 +105,34 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+
+<script>
+    $(document).ready(function() {
+        var cartCookie = getCart("Cart");
+        if(cartCookie != ""){
+            var cart = JSON.parse(cartCookie);
+            var productsAmount = cart.Products.length;
+            if(productsAmount != 0){
+                $('#badge').text(productsAmount);
+                $('#badge').css('display', 'inline-block');
+            }
+        }
+    });
+
+    function getCart(name){
+        var cookieValue = "";
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith(name + "=")) {
+            cookieValue = cookie.substring(name.length + 1);
+            break;
+            }
+        }
+
+        return decodeURIComponent(cookieValue);
+    }
+</script>

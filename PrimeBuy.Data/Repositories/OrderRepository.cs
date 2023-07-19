@@ -26,7 +26,7 @@ namespace PrimeBuy.Data.Repositories
 
         public async Task<List<Order>> GetOrderByUsername(string username)
         {
-            return await _context.Orders.AsQueryable().Where(x => x.Customer.UserName == username).Include(x => x.Status).Include(x => x.Customer).Include(x => x.Products).ToListAsync();
+            return await _context.Orders.AsQueryable().Where(x => x.Customer.UserName == username).Include(x => x.Status).Include(x => x.Customer).Include(x => x.Products).OrderBy(x => x.OrderDate).ToListAsync();
         }
     }
 }

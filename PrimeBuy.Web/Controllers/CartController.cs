@@ -63,13 +63,10 @@ namespace PrimeBuy.Web.Controllers
 
         private Cart GetCartFromCookies()
         {
-            if(Request.Cookies.TryGetValue("Cart", out string cartJson))
-            {
-                return JsonConvert.DeserializeObject<Cart>(cartJson);
-            }
-            else{
+            Request.Cookies.TryGetValue("Cart", out string cartJson);
+            if(cartJson is null || cartJson == "")
                 return new Cart {Products = new List<ProductCartViewModel>()};
-            }
+            return JsonConvert.DeserializeObject<Cart>(cartJson);
         }
 
         private void SetCartCookie(Cart cart)

@@ -108,6 +108,7 @@ namespace PrimeBuy.Web.Controllers
         {
             await HttpContext.SignOutAsync();
             Response.Cookies.Delete("Cart");
+            Response.Cookies.Append("Cart", "");
             return RedirectToAction("Index", "Home");
         }
     }

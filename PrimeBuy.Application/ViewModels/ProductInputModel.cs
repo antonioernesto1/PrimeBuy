@@ -7,9 +7,9 @@ namespace PrimeBuy.Application.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        
-        [DataType(DataType.Currency)]
         public string Description { get; set; }
+
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         public IFormFile Image { get; set; }
         public bool isFeatured { get; set; }

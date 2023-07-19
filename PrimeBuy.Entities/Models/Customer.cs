@@ -10,6 +10,10 @@ namespace PrimeBuy.Entities.Models
         public string CPF { get; set; }
         [Required]
         public DateTime Birthdate { get; set; }
+        [Required]
+        public string FirstName {get; set;}
+        [Required]
+        public string LastName {get; set;}
         public List<Order> Orders { get; set; }
     }
 }

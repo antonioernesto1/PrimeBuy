@@ -1,5 +1,7 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using PrimeBuy.Application.Helpers;
 using PrimeBuy.Application.Profiles;
@@ -27,7 +29,7 @@ builder.Services.AddAuthentication(options =>
     })
     .AddCookie(options =>
     {
-        options.Cookie.Name = "AuthenticationCookies";
+        options.Cookie.Name = "auth_cookie";
         options.Cookie.HttpOnly = true;
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.SlidingExpiration = true;
@@ -53,12 +55,9 @@ builder.Services.AddSingleton<IImageHandler>(provider =>
     return new ImageHandler(webHostEnvironment);
 });
 builder.Services.AddAutoMapper(typeof(ProductProfile));
-
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
