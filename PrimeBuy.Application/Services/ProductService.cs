@@ -113,5 +113,39 @@ namespace PrimeBuy.Application.Services
                 throw;
             }
         }
+
+        public async Task<List<ProductViewModel>> GetAllProducts()
+        {
+            try
+            {
+                var products = await _productRepository.GetAllProducts();
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                return productsViewModels;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        public async Task<bool> RemoveProduct(int id)
+        {
+            try
+            {
+                var product = await _productRepository.GetProductById(id);
+                if(product == null)
+                    return false;
+                _repository.Remove<Product>(product);
+                if(await _repository.SaveChangesAsync() == true)
+                    return true;
+                return false;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

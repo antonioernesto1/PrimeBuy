@@ -1,37 +1,23 @@
 @{
     ViewData["Title"] = "Admin Panel";
 }
-
-<h1>@ViewData["Title"]</h1>
-
- <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Users</h5>
-                        <p class="card-text">Manage users in the system.</p>
-                        <a href="@Url.Action("Index", "User")" class="btn btn-primary">Go to Users</a>
-                    </div>
-                </div>
+<div class="main-container">
+    <h1>@ViewData["Title"]</h1>
+    <div class="products-section" style="display:flex; flex-direction:column;">
+        <h2>Products</h2>
+        <div style="margin-left:30px;">
+            <div style="width:40%;">
+                <form method="GET" asp-action="ProductSearch" asp-controller="Admin">
+                    <label class="form-label" for="product-search">Search for products</label>
+                    <div class="" style="display: flex;">
+                        <input type="text" id="product-search" required name="name" class="form-control">
+                        <button type="submit" style="margin-left:10px"class="btn btn-primary"><i class="fas fa-search"></i></button>                
+                </form>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Products</h5>
-                        <p class="card-text">Manage products in the system.</p>
-                        <a href="@Url.Action("Index", "Product")" class="btn btn-primary">Go to Products</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Categories</h5>
-                        <p class="card-text">Manage categories in the system.</p>
-                        <a href="@Url.Action("Index", "Category")" class="btn btn-primary">Go to Categories</a>
-                    </div>
-                </div>
+            <div class="actions" style="margin-top:20px;">
+                <a class="btn btn-primary" asp-action="ProductSearch">List all products</a>
+                <a class="btn btn-primary" asp-action="ProductCreate">Create new product</a>
             </div>
         </div>
     </div>
+</div>

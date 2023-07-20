@@ -35,12 +35,17 @@ namespace PrimeBuy.Data.Repositories
 
         public async Task<List<Product>> GetProductByName(string name)
         {
-            return await _context.Products.Where(x => x.Name.ToLower().Contains(name.ToLower())).ToListAsync();
+            return await _context.Products.Include(x => x.Category).Where(x => x.Name.ToLower().Contains(name.ToLower())).ToListAsync();
         }
 
         public async Task<List<Product>> GetSimilarProducts(int categoryId, int productId)
         {
             return await _context.Products.Where(x => x.CategoryId == categoryId && x.Id != productId).OrderBy(x => x.isFeatured).Take(4).ToListAsync();
+        }
+
+        public async Task<List<Product>> GetAllProducts()
+        {
+            return await _context.Products.Include(x => x.Category).ToListAsync();
         }
     }
 }

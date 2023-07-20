@@ -55,6 +55,27 @@ namespace PrimeBuy.Web.Controllers
             
             return RedirectToAction("ProductCreate");
         }
+
+        [HttpGet]
+        [Route("Admin/Product/Search")]
+        public async Task<IActionResult> ProductSearch(string? name)
+        {
+            var products = new List<ProductViewModel>();
+            if(name == null || name == "")
+            {
+                products = await _productService.GetAllProducts();
+                return View(products);
+            }
+            products = await _productService.GetProductByName(name);
+            return View(products);
+        }
+        [HttpGet]
+        [Route("Admin/Product/Delete/{id}")]
+        public async Task<IActionResult> ProductDelete(int id)
+        {
+            var response = await _productService.RemoveProduct(id);
+            return View(response);
+        }
         [HttpGet]
         [Route("Admin/Category/Create")]
         public IActionResult CategoryCreate()

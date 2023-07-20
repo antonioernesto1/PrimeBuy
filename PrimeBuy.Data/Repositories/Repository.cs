@@ -25,6 +25,10 @@ namespace PrimeBuy.Data.Repositories
         {
             _context.Add(entity);
         }
+        public void Remove<T>(T entity) where T : class
+        {
+            _context.Remove(entity);
+        }
         public async Task<bool> SaveChangesAsync()
         {
             if(await _context.SaveChangesAsync() > 0)

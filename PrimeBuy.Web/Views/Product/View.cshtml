@@ -34,14 +34,14 @@
             {
                  <div class="col-md-3">
                 <div class="product-card">
-                    <img style="width:100%; height: 350px; object-fit:contain;" src="@Url.Content(similarProduct.ImagePath)" class="card-image">
+                    <img style="width:100%; height: 200px; object-fit:contain;" src="@Url.Content(similarProduct.ImagePath)" class="card-image">
                     <div class="card-body">
                         <div class="product-name">
                             <p><a asp-action="View" asp-controller="Product" asp-route-id=@similarProduct.Id>@similarProduct.Name</a></p>
                         </div>
                         <div class="product-card-buy">
                             <p>$@similarProduct.Price</p>
-                            <button class="btn btn-outline-secondary"><a asp-action="Add" asp-controller="Cart" asp-route-id=@similarProduct.Id>Buy now</a></button>
+                            <a class="btn btn-outline-primary" asp-action="AddProduct" asp-controller="Cart" asp-route-id=@similarProduct.Id><i class="fas fa-shopping-cart"></i> Add to cart</a>
                         </div>
                     </div>
                 </div>

@@ -13,5 +13,6 @@ namespace PrimeBuy.Data.Repositories.Interfaces
         Task<List<Product>> GetFeaturedProducts(); 
         Task<List<Product>> GetProductByName(string name);
         Task<List<Product>> GetSimilarProducts(int categoryId, int productId);
+        Task<List<Product>> GetAllProducts();
     }
 }

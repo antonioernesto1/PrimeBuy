@@ -10,7 +10,7 @@
         {
             <div id="product-@product.Id" style="display: flex; margin-top:20px;">
                 <div class="">
-                    <img style="width:200px; object-fit:contain" src="@Url.Content(@product.ImagePath)">
+                    <img style="width:200px; max-height:200px; object-fit:contain" src="@Url.Content(@product.ImagePath)">
                 </div>
                 <div class="" style="margin-left:20px; display:flex;flex-direction:column;justify-content:center;">
                     <h3>@product.Name</h3>

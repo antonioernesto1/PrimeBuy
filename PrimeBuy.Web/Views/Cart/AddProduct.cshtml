@@ -5,16 +5,16 @@
     <div class="alert alert-success">
         Product added to cart!
     </div>
-    <div class="" style="display:flex">
+    <div class="" style="display:flex; margin-top:20px">
         <div class="left">
             <img style="max-width: 300px; content-fit:contain" src="@Url.Content(@Model.ImagePath)" alt="">
         </div>
-        <div class="right" style="margin-left:10px; display: flex; flex-direction:column; justify-content:center;">
+        <div class="right" style="margin-left:10px; display: flex; flex-direction:column;">
             <h4>@Model.Name</h3>
             <h3>$@Model.Price</h3>
         </div>
     </div>
-    <div class="options" justify-content:center; padding:10px;">
+    <div class="options" style="margin-top:20px;justify-content:center; padding:10px;">
         <div class="">
             <a href="" class="btn btn-outline-primary"><i class="fas fa-shopping-cart"></i> Back to shop</a>
             <a href="" class="btn btn-outline-success"><i class="fas fa-money-bill"></i> Go to payment</a>

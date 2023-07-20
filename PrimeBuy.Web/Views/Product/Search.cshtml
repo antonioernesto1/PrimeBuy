@@ -4,7 +4,7 @@
     ViewData["Title"] = "Search";
 }
 <div class="container" id="search-container">
-    <div class="container">
+    <div class="container" style="margin-bottom: 50px;">
         <h2>Search</h2>
     </div>
 @if(Model.Any()){
@@ -13,7 +13,7 @@
         {
             <div class="col-md-4">
                 <div class="product-card">
-                    <img style="width:100%; height: 350px; object-fit:contain;" src="@Url.Content(@product.ImagePath)" class="card-image">
+                    <img style="width:100%; height: 250px; object-fit:contain;" src="@Url.Content(@product.ImagePath)" class="card-image">
                     <div class="card-body">
                         <div class="product-name">
                             <p><a asp-action="View" asp-controller="Product" asp-route-id="@product.Id"> @product.Name</a></p>
