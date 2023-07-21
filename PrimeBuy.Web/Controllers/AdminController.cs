@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using PrimeBuy.Application.Services.Interfaces;
 using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Web.Models;
 
 namespace PrimeBuy.Web.Controllers
 {
@@ -75,6 +76,29 @@ namespace PrimeBuy.Web.Controllers
         {
             var response = await _productService.RemoveProduct(id);
             return View(response);
+        }
+        [HttpGet]
+        [Route("Admin/Product/Edit/{id}")]
+        public async Task<IActionResult> ProductEdit(int id)
+        {
+            var product = await _productService.GetProductById(id, true);
+            var categories = await _categoryService.GetCategories();
+            var productInput = new ProductInputModel
+            {
+                Id = product.Id,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                isFeatured = product.isFeatured
+            };
+            var viewModel = new ProductEditViewModel{ProductInputModel = productInput, ProductViewModel = product};
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            return View(viewModel);
+        }
+        [HttpPost]
+        [Route("Admin/Product/Edit/{id}")]
+        public async Task<IActionResult> ProductEdit(ProductInputModel model)
+        {
+            return View();
         }
         [HttpGet]
         [Route("Admin/Category/Create")]

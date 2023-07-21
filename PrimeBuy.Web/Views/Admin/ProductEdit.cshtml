@@ -1,0 +1,63 @@
+@model PrimeBuy.Web.Models.ProductEditViewModel;
+@{
+    ViewData["Title"] = "Create";
+    var successMessage = TempData["SuccessMessage"] as string;
+    var categories = ViewBag.Categories as SelectList;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
+<form asp-action="ProductCreate" method="post" enctype="multipart/form-data">
+    <div class="mb-3 form-group">
+        <label asp-for="ProductInputModel.Name" class="form-label">Name</label>
+        <input asp-for="ProductInputModel.Name" type="text" value="@Model.ProductViewModel.Name" required class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="ProductInputModel.Description" class="form-label">Description</label>
+        <textarea asp-for="ProductInputModel.Description" type="text" class="form-control tiny-mce"></textarea>
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="ProductInputModel.Price" class="form-label">Price</label>
+        <input asp-for="ProductInputModel.Price" value="@Model.ProductViewModel.Price" type="text" pattern="[0-9]+([.][0-9]{1,2})?" class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+        <label asp-for="ProductInputModel.CategoryId" class="form-label">Category</label>
+        <select asp-for="ProductInputModel.CategoryId" class="form-control">
+            <option value="">-- Select category --</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Value">@category.Text</option>
+            }
+        </select>
+    </div>
+        <div class="mb-3 form-group">
+            <div class="image-placeholder">
+                <p>Image</p>
+                <img src="@Url.Content(@Model.ProductViewModel.ImagePath)" alt="">
+                <br>
+                <button class="btn btn-primary" style="margin-top:20px">Change image</button>
+            </div>
+            <div class="image-input" style="display:none;">
+                <label class="form-label" asp-for="ProductInputModel.Image">Image</label>
+                <input type="file" class="form-control" asp-for="ProductInputModel.Image" />
+            </div> 
+        </div> 
+    <div class="mb-3 form-group">
+        <input type="checkbox" asp-for="ProductInputModel.isFeatured" name="isFeatured" id="isFeatured">
+        <label class="form-label" for="isFeatured" asp-for="ProductInputModel.isFeatured">Is a featured Product?</label>
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Create</button>
+</form>
+
+
+
+
+<script>
+    $(document).ready(function(){
+        
+    });
+</script>
