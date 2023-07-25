@@ -8,24 +8,32 @@
 <form asp-action="Register" method="post" enctype="multipart/form-data">
     <input asp-for="Id" hidden type="text">
     <div class="col-md-3 mb-3 form-group">
+        <label asp-for="FirstName" class="form-label">First name</label>
+        <input asp-for="FirstName" required type="text" class="form-control">
+    </div>
+    <div class="col-md-3 mb-3 form-group">
+        <label asp-for="LastName" class="form-label">Last name</label>
+        <input asp-for="LastName" required type="text" class="form-control">
+    </div>
+    <div class="col-md-3 mb-3 form-group">
         <label asp-for="UserName" class="form-label">Username</label>
-        <input asp-for="UserName" type="text" class="form-control">
+        <input asp-for="UserName" required type="text" class="form-control">
     </div>
     <div class="col-md-3 mb-3 form-group">
         <label asp-for="Password" class="form-label">Password</label>
-        <input asp-for="Password" type="password" class="form-control">
+        <input asp-for="Password" required type="password" class="form-control">
     </div>
     <div class="col-md-3 mb-3form-group">
         <label asp-for="Email" class="form-label">E-mail</label>
-        <input asp-for="Email" type="text" class="form-control">
+        <input asp-for="Email" required type="text" class="form-control">
     </div>
     <div class="col-md-3 mb-3 form-group">
         <label class="form-label" asp-for="CPF">CPF</label>
-        <input type="text" class="form-control" asp-for="CPF" />
+        <input type="text" required class="form-control" asp-for="CPF" />
     </div>
     <div class="col-md-3 mb-3 form-group">
         <label asp-for="Birthdate" class="form-label">Birthdate</label>
-        <input asp-for="Birthdate" type="date" class="form-control">
+        <input asp-for="Birthdate" required type="date" class="form-control">
     </div>
 
     <button type="submit" class="btn btn-secondary">Create</button>

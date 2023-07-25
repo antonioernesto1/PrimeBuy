@@ -1,6 +1,6 @@
 @model PrimeBuy.Web.Models.ProductEditViewModel;
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit Product";
     var successMessage = TempData["SuccessMessage"] as string;
     var categories = ViewBag.Categories as SelectList;
 }
@@ -36,9 +36,9 @@
         <div class="mb-3 form-group">
             <div class="image-placeholder">
                 <p>Image</p>
-                <img src="@Url.Content(@Model.ProductViewModel.ImagePath)" alt="">
+                <img id="productImg" src="@Url.Content(@Model.ProductViewModel.ImagePath)" alt="">
                 <br>
-                <button class="btn btn-primary" style="margin-top:20px">Change image</button>
+                <button type="button" id="changeImageBtn" class="btn btn-primary" style="margin-top:20px">Change image</button>
             </div>
             <div class="image-input" style="display:none;">
                 <label class="form-label" asp-for="ProductInputModel.Image">Image</label>
@@ -58,6 +58,9 @@
 
 <script>
     $(document).ready(function(){
-        
+        $('#changeImageBtn').click(function() {
+            $('.image-placeholder').css('display', 'none');
+            $('.image-input').css('display', 'block');
+        });
     });
 </script>

@@ -4,7 +4,8 @@
     ViewData["Title"] = "Cart";
 }
 <div class="main-container">
-    <h3>Products</h3>
+    <h3>Cart</h3>
+    @if(Model.Products.Any()){
     <div class="container" style="display: flex; flex-direction:column;">
         @foreach(var product in Model.Products)
         {
@@ -36,6 +37,12 @@
             </div>
         }
     </div>
+    }
+    else{
+        <div class="container" style="text-align:center;">
+            <h2>No products in the cart</h2>
+        </div>
+    }
 </div>
 
 
@@ -69,6 +76,8 @@
             $('#product-'+productId).remove();
             if(cookieObj.Products.length == 0){
                 $('.payment-button').remove();
+                $('.main-container').append('<div class="container" style="text-align:center;"><h2>No products in the cart</h2></div>');
+
             }
             return;
         }

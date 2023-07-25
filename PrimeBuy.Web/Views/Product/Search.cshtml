@@ -20,7 +20,7 @@
                         </div>
                         <div class="product-card-buy">
                             <p>$@product.Price</p>
-                            <button class="btn btn-secondary"><a asp-action="Add" asp-controller="Cart" asp-route-id="1">Buy now</a></button>
+                            <button class="btn btn-primary"><a asp-action="AddProduct" asp-controller="Cart" asp-route-id="@product.Id"><i class="fas fa-shopping-cart"></i> Add to cart</a></button>
                         </div>
                     </div>
                 </div>
