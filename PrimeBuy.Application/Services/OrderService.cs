@@ -38,6 +38,14 @@ namespace PrimeBuy.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<Order> GetOrderById(string id)
+        {
+            var order = await _orderRepository.GetOrderById(id);
+            if(order == null)
+                return null;
+            return order;
+        }
+
         public async Task<bool> UpdateOrderSessionId(string orderId, string sessionId)
         {
             try

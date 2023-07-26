@@ -13,5 +13,6 @@ namespace PrimeBuy.Application.Services.Interfaces
         Task<Order> CreateOrder(List<ProductCartDto> products, string username);
         Task<Order> UpdateOrderStatus(string sessionId);
         Task<bool> UpdateOrderSessionId(string orderId, string sessionId);
+        Task<Order> GetOrderById(string id);
     }
 }

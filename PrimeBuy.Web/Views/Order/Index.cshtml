@@ -27,6 +27,10 @@
     .order .container{
         margin-top:15px;
     }
+    .payment-button{
+        margin-left:20px;
+        margin-bottom:20px;
+    }
 </style>
 <div class="main-container">
     <h2>My Orders</h2>
@@ -67,6 +71,15 @@
                         </div>
                     }
                 </div>
+                @if(order.Status.Id == 1)
+                {
+                    <div class="payment-button">
+                        <a asp-action="UpdateOrder" asp-route-id="@order.Id" class="btn btn-outline-success">
+                            <i class="fas fa-money-bill"></i>
+                            Proceed to payment
+                        </a>
+                    </div>
+                }
             </div>
         }
     }

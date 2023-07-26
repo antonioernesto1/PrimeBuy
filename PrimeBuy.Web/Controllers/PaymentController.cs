@@ -19,11 +19,13 @@ namespace PrimeBuy.Web.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IOrderService _orderService;
+        private readonly IStripeService _stripeService;
 
-        public PaymentController(IConfiguration configuration, IOrderService orderService)
+        public PaymentController(IConfiguration configuration, IOrderService orderService, IStripeService stripeService)
         {
             _configuration = configuration;
             _orderService = orderService;
+            _stripeService = stripeService;
         }
 
         [HttpGet("Success")]
@@ -50,35 +52,8 @@ namespace PrimeBuy.Web.Controllers
                 Request.Cookies.TryGetValue("Cart", out string cartJson);
                 var cart = JsonConvert.DeserializeObject<Cart>(cartJson);
                 var products = cart.Products;
-                List<SessionLineItemOptions> items = new List<SessionLineItemOptions>();
-                foreach(var product in products)
-                {
-                    items.Add(new SessionLineItemOptions
-                    {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            Currency = "usd",
-                            UnitAmountDecimal = product.Price * 100,
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = product.Name,
-                                Images = new List<string> {product.ImagePath}
-                            }
-                        },
-                        Quantity = product.Amount
-                    });
-                }
-                var options = new SessionCreateOptions
-                {
-                    PaymentMethodTypes = new List<string> {"card"},
-                    LineItems = items,
-                    SuccessUrl = "http://localhost:5106/Payment/Success?session_id={CHECKOUT_SESSION_ID}",
-                    CancelUrl = "http://localhost:5106/Payment/Cancel",
-                    Mode = "payment"
-                };
-                var service = new SessionService();
-                var session = await service.CreateAsync(options);
-                var response = await _orderService.UpdateOrderSessionId(order_id, session.Id);
+                var session = await _stripeService.CreateSession(products);
+                await _orderService.UpdateOrderSessionId(order_id, session.Id);
                 return Redirect(session.Url);
             }
             catch (System.Exception)

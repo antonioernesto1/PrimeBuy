@@ -48,6 +48,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IStripeService, StripeService>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddSingleton<IImageHandler>(provider =>
 {
