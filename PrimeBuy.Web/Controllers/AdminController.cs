@@ -96,9 +96,28 @@ namespace PrimeBuy.Web.Controllers
         }
         [HttpPost]
         [Route("Admin/Product/Edit/{id}")]
-        public async Task<IActionResult> ProductEdit(ProductInputModel model)
+        public async Task<IActionResult> ProductEdit(int id, ProductEditViewModel model)
         {
-            return View();
+            var product = model.ProductInputModel;
+            var response = await _productService.UpdateProduct(id, product);
+            if(response == true){
+                TempData["SuccessMessage"] = "Product successfully updated";
+            }
+            else{
+                 TempData["ErrorMessage"] = "Error while updating product";
+            }
+            var productViewModel = await _productService.GetProductById(id, true);
+            var categories = await _categoryService.GetCategories();
+            var productInput = new ProductInputModel
+            {
+                Id = product.Id,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                isFeatured = product.isFeatured
+            };
+            var viewModel = new ProductEditViewModel{ProductInputModel = productInput, ProductViewModel = productViewModel};
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            return View(viewModel);
         }
         [HttpGet]
         [Route("Admin/Category/Create")]
@@ -118,7 +137,7 @@ namespace PrimeBuy.Web.Controllers
             else{
                  TempData["SuccessMessage"] = "Error while adding product";
             }
-            
+
             return RedirectToAction("CategoryCreate");
         }
     }

@@ -147,5 +147,31 @@ namespace PrimeBuy.Application.Services
                 throw;
             }
         }
+        public async Task<bool> UpdateProduct(int id, ProductInputModel model)
+        {
+            try
+            {
+                var product = await _productRepository.GetProductById(id, true);
+                if(product == null)
+                    return false;
+                if(model.Image != null)
+                {
+                    var imagePath = _imageHandler.UploadImage(model.Image);
+                    product.ImagePath = imagePath;
+                }
+                product.CategoryId = model.CategoryId;
+                product.Description = model.Description;
+                product.Name = model.Name;
+                product.isFeatured = model.isFeatured;
+                product.Price = model.Price;
+                product.Id = id;
+                var response = await _repository.SaveChangesAsync();
+                return response;
+            }
+            catch(Exception e)
+            {
+                throw;
+            }
+        }
     }
 }

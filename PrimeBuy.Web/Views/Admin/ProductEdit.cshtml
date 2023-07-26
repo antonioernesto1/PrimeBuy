@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Edit Product";
     var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
     var categories = ViewBag.Categories as SelectList;
 }
 
@@ -9,8 +10,12 @@
 {
     <div class="alert alert-success">@successMessage</div>
 }
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
 
-<form asp-action="ProductCreate" method="post" enctype="multipart/form-data">
+<form asp-action="ProductEdit" method="post" enctype="multipart/form-data">
     <div class="mb-3 form-group">
         <label asp-for="ProductInputModel.Name" class="form-label">Name</label>
         <input asp-for="ProductInputModel.Name" type="text" value="@Model.ProductViewModel.Name" required class="form-control">
@@ -50,7 +55,7 @@
         <label class="form-label" for="isFeatured" asp-for="ProductInputModel.isFeatured">Is a featured Product?</label>
     </div>
 
-    <button type="submit" class="btn btn-secondary">Create</button>
+    <button type="submit" class="btn btn-secondary">Save changes</button>
 </form>
 
 

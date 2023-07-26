@@ -10,6 +10,7 @@ namespace PrimeBuy.Application.Services.Interfaces
         Task<List<ProductViewModel>> GetProductByName(string name);
         Task<List<ProductViewModel>> GetSimilarProducts(int categoryId, int productId);
         Task<List<ProductViewModel>> GetAllProducts();
+        Task<bool> UpdateProduct(int id, ProductInputModel model);
         Task<bool> RemoveProduct(int id);
     }
 }
