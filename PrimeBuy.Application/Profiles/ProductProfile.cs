@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Entities.Models;
 
 namespace PrimeBuy.Application.Profiles
@@ -12,9 +12,9 @@ namespace PrimeBuy.Application.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<ProductInputModel, Product>();
-            CreateMap<Product, ProductViewModel>();
-            CreateMap<ProductCartViewModel, Product>();
+            CreateMap<ProductInputDto, Product>();
+            CreateMap<Product, ProductViewDto>();
+            CreateMap<ProductCartDto, Product>();
         }
     }
 }

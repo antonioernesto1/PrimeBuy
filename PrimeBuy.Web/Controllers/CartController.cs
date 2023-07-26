@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Web.Utils;
 
 namespace PrimeBuy.Web.Controllers
@@ -50,7 +50,7 @@ namespace PrimeBuy.Web.Controllers
             else
             {
                 var product = await _productService.GetProductById(id, false);
-                cart.Products.Add(new ProductCartViewModel{
+                cart.Products.Add(new ProductCartDto{
                     Id = product.Id, Amount = 1,
                     ImagePath = product.ImagePath, Price = product.Price,
                     Name = product.Name}
@@ -65,7 +65,7 @@ namespace PrimeBuy.Web.Controllers
         {
             Request.Cookies.TryGetValue("Cart", out string cartJson);
             if(cartJson is null || cartJson == "")
-                return new Cart {Products = new List<ProductCartViewModel>()};
+                return new Cart {Products = new List<ProductCartDto>()};
             return JsonConvert.DeserializeObject<Cart>(cartJson);
         }
 

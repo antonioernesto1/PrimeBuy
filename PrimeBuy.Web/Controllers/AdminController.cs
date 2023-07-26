@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Web.Models;
 
 namespace PrimeBuy.Web.Controllers
@@ -43,7 +43,7 @@ namespace PrimeBuy.Web.Controllers
         }
         [HttpPost]
         [Route("Admin/Product/Create")]
-        public async Task<IActionResult> ProductCreate([FromForm] ProductInputModel model)
+        public async Task<IActionResult> ProductCreate([FromForm] ProductInputDto model)
         {
             var response = await _productService.AddProduct(model);
 
@@ -61,7 +61,7 @@ namespace PrimeBuy.Web.Controllers
         [Route("Admin/Product/Search")]
         public async Task<IActionResult> ProductSearch(string? name)
         {
-            var products = new List<ProductViewModel>();
+            var products = new List<ProductViewDto>();
             if(name == null || name == "")
             {
                 products = await _productService.GetAllProducts();
@@ -83,14 +83,14 @@ namespace PrimeBuy.Web.Controllers
         {
             var product = await _productService.GetProductById(id, true);
             var categories = await _categoryService.GetCategories();
-            var productInput = new ProductInputModel
+            var productInput = new ProductInputDto
             {
                 Id = product.Id,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 isFeatured = product.isFeatured
             };
-            var viewModel = new ProductEditViewModel{ProductInputModel = productInput, ProductViewModel = product};
+            var viewModel = new ProductEditViewModel{ProductInputDto = productInput, ProductViewDto = product};
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View(viewModel);
         }
@@ -98,7 +98,7 @@ namespace PrimeBuy.Web.Controllers
         [Route("Admin/Product/Edit/{id}")]
         public async Task<IActionResult> ProductEdit(int id, ProductEditViewModel model)
         {
-            var product = model.ProductInputModel;
+            var product = model.ProductInputDto;
             var response = await _productService.UpdateProduct(id, product);
             if(response == true){
                 TempData["SuccessMessage"] = "Product successfully updated";
@@ -106,16 +106,16 @@ namespace PrimeBuy.Web.Controllers
             else{
                  TempData["ErrorMessage"] = "Error while updating product";
             }
-            var productViewModel = await _productService.GetProductById(id, true);
+            var ProductViewDto = await _productService.GetProductById(id, true);
             var categories = await _categoryService.GetCategories();
-            var productInput = new ProductInputModel
+            var productInput = new ProductInputDto
             {
                 Id = product.Id,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 isFeatured = product.isFeatured
             };
-            var viewModel = new ProductEditViewModel{ProductInputModel = productInput, ProductViewModel = productViewModel};
+            var viewModel = new ProductEditViewModel{ProductInputDto = productInput, ProductViewDto = ProductViewDto};
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View(viewModel);
         }
@@ -127,7 +127,7 @@ namespace PrimeBuy.Web.Controllers
         }
         [HttpPost]
         [Route("Admin/Category/Create")]
-        public async Task<IActionResult> CategoryCreate(CategoryInputModel model)
+        public async Task<IActionResult> CategoryCreate(CategoryInputDto model)
         {
             var response = await _categoryService.CreateCategory(model);
 

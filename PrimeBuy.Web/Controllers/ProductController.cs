@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Web.Models;
 
 namespace PrimeBuy.Web.Controllers
@@ -28,7 +28,7 @@ namespace PrimeBuy.Web.Controllers
         {
             var viewModel = new ProductPageViewModel();
             var product = await _productService.GetProductById(id, true);
-            viewModel.ProductViewModel = product;
+            viewModel.ProductViewDto = product;
             var similarProducts = await _productService.GetSimilarProducts(product.CategoryId, product.Id);
             viewModel.SimilarProducts = similarProducts;
             return View(viewModel);

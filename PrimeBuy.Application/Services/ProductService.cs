@@ -7,7 +7,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using PrimeBuy.Application.Helpers;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Data.Repositories.Interfaces;
 using PrimeBuy.Entities.Models;
 
@@ -31,7 +31,7 @@ namespace PrimeBuy.Application.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> AddProduct(ProductInputModel model)
+        public async Task<bool> AddProduct(ProductInputDto model)
         {
             try
             {
@@ -54,13 +54,13 @@ namespace PrimeBuy.Application.Services
             
         }
 
-        public async Task<ProductViewModel> GetProductById(int id, bool includeCategory = false)
+        public async Task<ProductViewDto> GetProductById(int id, bool includeCategory = false)
         {
             try
             {
                 var product = await _productRepository.GetProductById(id, includeCategory);
-                var productViewModel = _mapper.Map<ProductViewModel>(product);
-                return productViewModel;
+                var ProductViewDto = _mapper.Map<ProductViewDto>(product);
+                return ProductViewDto;
             }
             catch (System.Exception)
             {
@@ -69,12 +69,12 @@ namespace PrimeBuy.Application.Services
             }
         }
 
-        public async Task<List<ProductViewModel>> GetFeaturedProducts()
+        public async Task<List<ProductViewDto>> GetFeaturedProducts()
         {
             try
             {
                 var products = await _productRepository.GetFeaturedProducts();
-                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewDto>>(products);
                 return productsViewModels;
             }
             catch (System.Exception)
@@ -84,12 +84,12 @@ namespace PrimeBuy.Application.Services
             }
         }
 
-        public async Task<List<ProductViewModel>> GetProductByName(string name)
+        public async Task<List<ProductViewDto>> GetProductByName(string name)
         {
             try
             {
                 var products = await _productRepository.GetProductByName(name);
-                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewDto>>(products);
                 return productsViewModels;
             }
             catch (System.Exception)
@@ -99,12 +99,12 @@ namespace PrimeBuy.Application.Services
             }
         }
 
-        public async Task<List<ProductViewModel>> GetSimilarProducts(int categoryId, int productId)
+        public async Task<List<ProductViewDto>> GetSimilarProducts(int categoryId, int productId)
         {
             try
             {
                 var products = await _productRepository.GetSimilarProducts(categoryId, productId);
-                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewDto>>(products);
                 return productsViewModels;
             }
             catch (System.Exception)
@@ -114,12 +114,12 @@ namespace PrimeBuy.Application.Services
             }
         }
 
-        public async Task<List<ProductViewModel>> GetAllProducts()
+        public async Task<List<ProductViewDto>> GetAllProducts()
         {
             try
             {
                 var products = await _productRepository.GetAllProducts();
-                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewModel>>(products);
+                var productsViewModels = _mapper.Map<List<Product>, List<ProductViewDto>>(products);
                 return productsViewModels;
             }
             catch (System.Exception)
@@ -147,7 +147,7 @@ namespace PrimeBuy.Application.Services
                 throw;
             }
         }
-        public async Task<bool> UpdateProduct(int id, ProductInputModel model)
+        public async Task<bool> UpdateProduct(int id, ProductInputDto model)
         {
             try
             {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Data.Repositories.Interfaces;
 using PrimeBuy.Entities.Models;
 
@@ -20,7 +20,7 @@ namespace PrimeBuy.Application.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> CreateCategory(CategoryInputModel model)
+        public async Task<bool> CreateCategory(CategoryInputDto model)
         {
             try
             {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Entities.Models;
 
 namespace PrimeBuy.Application.Profiles
@@ -12,8 +12,8 @@ namespace PrimeBuy.Application.Profiles
     {
         public AccountProfile()
         {
-            CreateMap<AccountRegisterModel, Customer>();
-            CreateMap<AccountLoginModel, Customer>();
+            CreateMap<AccountRegisterDto, Customer>();
+            CreateMap<AccountLoginDto, Customer>();
         }
     }
 }

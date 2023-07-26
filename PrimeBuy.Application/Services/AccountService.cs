@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Data.Repositories.Interfaces;
 using PrimeBuy.Entities.Models;
 
@@ -24,7 +24,7 @@ namespace PrimeBuy.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> Register(AccountRegisterModel model)
+        public async Task<bool> Register(AccountRegisterDto model)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace PrimeBuy.Application.Services
                 throw;
             }
         }
-        public async Task<Customer> Login(AccountLoginModel model)
+        public async Task<Customer> Login(AccountLoginDto model)
         {
             var user = await _accountRepository.GetUserByLogin(model.UserName);
             if(user == null)

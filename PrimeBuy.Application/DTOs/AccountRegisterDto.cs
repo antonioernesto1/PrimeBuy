@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PrimeBuy.Application.ViewModels
+namespace PrimeBuy.Application.DTOs
 {
-    public class AccountRegisterModel
+    public class AccountRegisterDto
     {
         public string Id { get; set; }
         public string UserName { get; set; }

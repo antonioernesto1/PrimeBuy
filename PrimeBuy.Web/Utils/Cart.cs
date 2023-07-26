@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using PrimeBuy.Models;
 using PrimeBuy.Entities.Models;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 
 namespace PrimeBuy.Web.Utils
 {
     public class Cart
     {
-        public List<ProductCartViewModel> Products { get; set; }
+        public List<ProductCartDto> Products { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 
 namespace PrimeBuy.Web.Controllers
 {
@@ -32,7 +32,7 @@ namespace PrimeBuy.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(AccountLoginModel model)
+        public async Task<IActionResult> Login(AccountLoginDto model)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace PrimeBuy.Web.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Register([FromForm] AccountRegisterModel model)
+        public async Task<IActionResult> Register([FromForm] AccountRegisterDto model)
         {
             try
             {
@@ -93,8 +93,8 @@ namespace PrimeBuy.Web.Controllers
                 {
                     TempData["ErrorMessage"] = "Error while creating user";
                 }
-                var accountLoginModel = new AccountLoginModel{UserName = model.UserName, Password = model.Password};
-                return RedirectToAction("Login", "Account", accountLoginModel);
+                var AccountLoginDto = new AccountLoginDto{UserName = model.UserName, Password = model.Password};
+                return RedirectToAction("Login", "Account", AccountLoginDto);
             }
             catch (System.Exception)
             {

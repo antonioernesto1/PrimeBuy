@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using PrimeBuy.Application.Services.Interfaces;
-using PrimeBuy.Application.ViewModels;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Data.Repositories;
 using PrimeBuy.Data.Repositories.Interfaces;
 using PrimeBuy.Entities.Models;
@@ -80,7 +80,7 @@ namespace PrimeBuy.Application.Services
                 throw;
             }
         }
-        public async Task<Order> CreateOrder(List<ProductCartViewModel> productsDto, string username)
+        public async Task<Order> CreateOrder(List<ProductCartDto> productsDto, string username)
         {
             try
             {
@@ -152,7 +152,7 @@ namespace PrimeBuy.Application.Services
             return id;
         }
 
-        private decimal GetTotalPrice(List<ProductCartViewModel> productsDto)
+        private decimal GetTotalPrice(List<ProductCartDto> productsDto)
         {
             decimal totalPrice = 0;
             foreach(var product in productsDto)
