@@ -1,10 +1,31 @@
-@model List<PrimeBuy.Entities.Models.Order>;
+@model List<PrimeBuy.Application.DTOs.OrderDto>;
 <style>
-    .information-content{
+    .order{
+        border: 3px solid rgba(199, 199, 199, 0.282);
+    }
+    .order-information-content{
         display:flex;
         flex-direction: column;
+        padding: 15px;
+    }
+    .order-informations{
+        justify-content: space-around;
+        background-color:rgba(199, 199, 199, 0.282);
+        border-radius: 10px;
+    }
+    .order-product{
+        border-bottom: 3px solid rgba(199, 199, 199, 0.282);
         margin-left: 20px;
-        margin-top: 20px;
+        display:flex;
+        align-items: center;
+    }
+    .order-product-information-right{
+        margin-left:20px;
+        display:flex;
+        flex-direction: column;
+    }
+    .order .container{
+        margin-top:15px;
     }
 </style>
 <div class="main-container">
@@ -14,23 +35,37 @@
         @foreach (var order in Model)
         {
             <div class="order" style="margin-top:50px; width:80%">
-                <div class="order-informations" style="display: flex; background-color:rgba(199, 199, 199, 0.282)">
-                    <div class="information-content">
+                <div class="order-informations" style="display: flex;">
+                    <div class="order-information-content">
                         <span>Order n.</span>
                         <span>@order.Id</span>
                     </div>
-                    <div class="information-content">
+                    <div class="order-information-content">
                         <span>Ordered by</span>
-                        <span>@order.Customer.UserName</span>
+                        <span>@order.Customer.FirstName @order.Customer.LastName</span>
                     </div>
-                    <div class="information-content">
+                    <div class="order-information-content">
                         <span>Total price</span>
                         <span>$@order.TotalPrice.ToString("F2")</span>
                     </div>
-                    <div class="information-content">
+                    <div class="order-information-content">
                         <span>Order status</span>
                         <span>@order.Status.Name</span>
                     </div>
+                </div>
+                <div class="container">
+                    @foreach(var product in order.Products)
+                    {
+                        <div class="order-product">
+                            <div class="order-product-information-left">
+                                <img style="object-fit: contain;" src="@Url.Content(@product.ImagePath)" width="120px" height="120px;">
+                            </div>
+                            <div class="order-product-information-right">
+                                <span>@product.Name</span>
+                                <span>$@product.Price x @product.Amount</span>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         }

@@ -9,5 +9,6 @@ namespace PrimeBuy.Data.Repositories.Interfaces
     public interface IOrdersProductsRepository
     {
         Task<OrdersProducts> GetOrderProduct(int productId, string orderId);
+        Task<List<OrdersProducts>> GetOrdersProductsByOrders(string orderId);
     }
 }

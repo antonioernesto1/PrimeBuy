@@ -55,6 +55,7 @@ builder.Services.AddSingleton<IImageHandler>(provider =>
     return new ImageHandler(webHostEnvironment);
 });
 builder.Services.AddAutoMapper(typeof(ProductProfile));
+builder.Services.AddAutoMapper(typeof(OrderProfile));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

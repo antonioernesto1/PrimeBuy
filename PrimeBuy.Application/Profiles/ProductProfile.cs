@@ -15,6 +15,7 @@ namespace PrimeBuy.Application.Profiles
             CreateMap<ProductInputDto, Product>();
             CreateMap<Product, ProductViewDto>();
             CreateMap<ProductCartDto, Product>();
+            CreateMap<Product, ProductOrderDto>();
         }
     }
 }

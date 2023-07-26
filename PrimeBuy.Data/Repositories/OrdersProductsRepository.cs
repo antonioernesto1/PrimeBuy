@@ -16,6 +16,11 @@ namespace PrimeBuy.Data.Repositories
             _context = context;
         }
 
+        public async Task<List<OrdersProducts>> GetOrdersProductsByOrders(string orderId)
+        {
+            return await _context.OrdersProducts.AsNoTracking().Where(x => x.OrderId == orderId).ToListAsync();
+        }
+
         public async Task<OrdersProducts> GetOrderProduct(int productId, string orderId)
         {
             return await _context.OrdersProducts.FirstOrDefaultAsync(x => x.ProductId == productId && x.OrderId == orderId);

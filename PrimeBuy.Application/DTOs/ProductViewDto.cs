@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using PrimeBuy.Entities.Models;
 
-namespace PrimeBuy.Application.ViewModels
+namespace PrimeBuy.Application.DTOs
 {
-    public class ProductViewModel
+    public class ProductViewDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

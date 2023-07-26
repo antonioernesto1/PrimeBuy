@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using PrimeBuy.Application.DTOs;
 using PrimeBuy.Application.Services.Interfaces;
 using PrimeBuy.Web.Utils;
 
@@ -27,8 +28,10 @@ namespace PrimeBuy.Web.Controllers
         {
             try
             {
-                 var username = User.Identity.Name;
-                var orders = await _orderService.GetOrdersByUsername(username);
+                var username = User.Identity.Name;
+                var orders = await _orderService.GetOrdersByUsername(username); 
+                if(orders == null)
+                    orders = new List<OrderDto>();
                 return View(orders);
             }
             catch (System.Exception)

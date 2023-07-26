@@ -22,9 +22,11 @@ namespace PrimeBuy.Application.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IOrdersProductsRepository _ordersProductsRepository;
         private readonly IStatusRepository _statusRepository;
-        public OrderService(IRepository repository, IProductRepository productRepository, 
+        private readonly IMapper _mapper;
+        public OrderService(IRepository repository, IProductRepository productRepository,
             IAccountRepository accountRepository, IOrdersProductsRepository ordersProductsRepository,
-            IOrderRepository orderRepository, IConfiguration configuration, IStatusRepository statusRepository)
+            IOrderRepository orderRepository, IConfiguration configuration, IStatusRepository statusRepository, 
+            IMapper mapper)
         {
             _repository = repository;
             _productRepository = productRepository;
@@ -33,6 +35,7 @@ namespace PrimeBuy.Application.Services
             _orderRepository = orderRepository;
             _configuration = configuration;
             _statusRepository = statusRepository;
+            _mapper = mapper;
         }
 
         public async Task<bool> UpdateOrderSessionId(string orderId, string sessionId)
@@ -124,14 +127,24 @@ namespace PrimeBuy.Application.Services
             }
         }
 
-        public async Task<List<Order>> GetOrdersByUsername(string username)
+        public async Task<List<OrderDto>> GetOrdersByUsername(string username)
         {
             try
             {
                 var orders = await _orderRepository.GetOrderByUsername(username);
-                if(orders != null)
-                    return orders;
-                return null;
+                if(orders.Count() == 0)
+                    return null;
+                
+                var ordersDto = _mapper.Map<List<Order>, List<OrderDto>>(orders);
+                foreach(var order in orders)
+                {
+                    var products = order.Products;
+                    var productsDto = _mapper.Map<List<Product>, List<ProductOrderDto>>(products);
+                    var orderProducts = await _ordersProductsRepository.GetOrdersProductsByOrders(order.Id);
+                    productsDto.ForEach(x => x.Amount = orderProducts.Find(s => s.ProductId == x.Id).Amount);
+                    ordersDto.Find(x => x.Id == order.Id).Products = productsDto;
+                }
+                return ordersDto;
             }
             catch (System.Exception)
             {
