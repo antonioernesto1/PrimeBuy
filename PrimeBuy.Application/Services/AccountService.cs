@@ -31,7 +31,7 @@ namespace PrimeBuy.Application.Services
                 var user = _mapper.Map<Customer>(model);
                 user.EmailConfirmed = true;
                 user.Birthdate = DateTime.UtcNow;
-                user.Id = new Guid().ToString();
+                user.Id = Guid.NewGuid().ToString();
                 var response = await _repository.CreateUser(user, model.Password);
                 if(response == true)
                     return true;
