@@ -19,12 +19,14 @@
 
 ### Algumas imagens do projeto:
 <h3>Home page</h3>
-<img width="600px" height="300px" src="images/homepage.png">
+<img width="600px" height="300px" style="object-fit:contain;" src="images/homepage.png">
 <h3>Página de visualização do produto</h3>
-<img width="600px" height="300px" src="images/paginaproduto.png">
-<img width="600px" height="300px" src="images/produtossimilares.png">
+<img width="600px" height="300px" style="object-fit:contain;"  src="images/paginaproduto.png">
+<img width="600px" height="300px" style="object-fit:contain;" src="images/produtossimilares.png">
 <h3>Carrinho de compras</h3>
-<img width="600px" height="300px" src="images/carrinho.png">
+<img width="600px" height="300px" style="object-fit:contain;" src="images/carrinho.png">
+<h3>Página de pedidos do usuário</h3>
+<img width="600px" height="300px" style="object-fit:contain;" src="images/pedidos.png">
 <h3>Página do Stripe com os produtos</h3>
-<img width="600px" height="300px" src="images/stripe.png">
+<img width="600px" height="300px" style="object-fit:contain;" src="images/stripe.png">
 </div>
